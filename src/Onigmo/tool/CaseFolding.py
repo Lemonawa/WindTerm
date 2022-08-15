@@ -22,18 +22,18 @@ def print_case_folding_data(filename):
             res = pattern.match(line)
             if not res:
                 continue
-            ch_from = int(res.group(1), 16)
+            ch_from = int(res[1], 16)
             ch_to = []
 
-            if res.group(2) == 'T':
+            if res[2] == 'T':
                 # Turkic case folding
                 turkic.append(ch_from)
                 continue
 
             # store folding data
             for i in range(3, 6):
-                if res.group(i):
-                    ch_to.append(int(res.group(i), 16))
+                if res[i]:
+                    ch_to.append(int(res[i], 16))
             fold[ch_from] = ch_to
 
             # store unfolding data
@@ -123,9 +123,7 @@ def print_case_folding_data(filename):
     print("#define UNFOLD3_TABLE_SIZE\t%d" % int(unfold3_table_size * 1.7))
 
 def main():
-    filename = 'CaseFolding.txt'
-    if len(sys.argv) > 1:
-        filename = sys.argv[1]
+    filename = sys.argv[1] if len(sys.argv) > 1 else 'CaseFolding.txt'
     print_case_folding_data(filename)
 
 if __name__ == '__main__':
